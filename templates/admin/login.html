@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login | Bhartiya Patrakar Union{% endblock %}
+
+{% block content %}
+
+<section class="page-header">
+    <div class="container">
+        <p class="eyebrow">BHARTIYA PATRAKAR UNION</p>
+        <h1>Admin Login</h1>
+        <p>Administrator access</p>
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="container">
+
+        <div class="membership-form-card">
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Login
+                </button>
+
+            </form>
+
+            {% if error %}
+                <p style="color: red; margin-top: 15px;">
+                    {{ error }}
+                </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

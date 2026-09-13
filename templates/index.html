@@ -1,0 +1,550 @@
+{% extends "base.html" %}
+
+{% block title %}
+Bhartiya Patrakar Union | Home
+{% endblock %}
+
+{% block description %}
+Bhartiya Patrakar Union - Latest news, events, membership, gallery and journalism related information.
+{% endblock %}
+
+{% block og_title %}
+Bhartiya Patrakar Union | Home
+{% endblock %}
+
+{% block og_description %}
+Explore latest news, upcoming events, membership and gallery of Bhartiya Patrakar Union.
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    .hero {
+        background: linear-gradient(
+            135deg,
+            #0f2747,
+            #173f6f
+        );
+        color: white;
+        padding: 90px 20px;
+        text-align: center;
+    }
+
+    .hero-content {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        margin: 0 0 20px;
+        font-weight: 800;
+    }
+
+    .hero p {
+        font-size: 19px;
+        line-height: 1.7;
+        color: #e2e8f0;
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .hero-buttons {
+        margin-top: 30px;
+    }
+
+    .hero-btn {
+        display: inline-block;
+        padding: 13px 25px;
+        margin: 5px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .primary-btn {
+        background: white;
+        color: #0f2747;
+    }
+
+    .secondary-btn {
+        border: 1px solid white;
+        color: white;
+    }
+
+    .hero-btn:hover {
+        transform: translateY(-2px);
+    }
+
+
+    /* ABOUT */
+
+    .section {
+        max-width: 1150px;
+        margin: auto;
+        padding: 70px 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .section-title h2 {
+        font-size: 32px;
+        color: #0f2747;
+        margin-bottom: 10px;
+    }
+
+    .section-title p {
+        color: #64748b;
+        max-width: 650px;
+        margin: auto;
+        line-height: 1.6;
+    }
+
+    .about-box {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0 5px 25px rgba(15, 39, 71, 0.08);
+        line-height: 1.8;
+        text-align: center;
+    }
+
+
+    /* FEATURES */
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .feature-card {
+        background: white;
+        padding: 30px 25px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 5px 25px rgba(15, 39, 71, 0.08);
+        transition: 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 38px;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        color: #0f2747;
+        margin-bottom: 10px;
+    }
+
+    .feature-card p {
+        color: #64748b;
+        line-height: 1.6;
+        font-size: 14px;
+    }
+
+
+    /* NEWS */
+
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+
+    .news-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 25px rgba(15, 39, 71, 0.08);
+    }
+
+    .news-image {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .news-content {
+        padding: 22px;
+    }
+
+    .news-category {
+        display: inline-block;
+        background: #e8eef6;
+        color: #0f2747;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .news-content h3 {
+        margin: 5px 0 10px;
+        color: #0f2747;
+        font-size: 19px;
+    }
+
+    .news-content p {
+        color: #64748b;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .read-more {
+        color: #0f2747;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+
+    /* CTA */
+
+    .cta {
+        background: #0f2747;
+        color: white;
+        margin: 20px;
+        border-radius: 15px;
+        padding: 55px 25px;
+        text-align: center;
+    }
+
+    .cta h2 {
+        font-size: 32px;
+        margin-bottom: 12px;
+    }
+
+    .cta p {
+        color: #cbd5e1;
+        margin-bottom: 25px;
+    }
+
+    .cta a {
+        display: inline-block;
+        background: white;
+        color: #0f2747;
+        padding: 13px 25px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+
+    /* RESPONSIVE */
+
+    @media (max-width: 800px) {
+
+        .hero {
+            padding: 65px 20px;
+        }
+
+        .hero h1 {
+            font-size: 35px;
+        }
+
+        .hero p {
+            font-size: 16px;
+        }
+
+        .features,
+        .news-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section {
+            padding: 50px 20px;
+        }
+
+        .section-title h2 {
+            font-size: 27px;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================
+     HERO SECTION
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>
+            Bhartiya Patrakar Union
+        </h1>
+
+        <p>
+            A professional platform connecting journalism,
+            communication, news, events and membership.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('membership') }}"
+                class="hero-btn primary-btn"
+            >
+                Become a Member
+            </a>
+
+            <a
+                href="{{ url_for('news') }}"
+                class="hero-btn secondary-btn"
+            >
+                Latest News
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     ABOUT PREVIEW
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            About Bhartiya Patrakar Union
+        </h2>
+
+        <p>
+            Learn more about our platform and its
+            purpose in supporting journalism and communication.
+        </p>
+
+    </div>
+
+
+    <div class="about-box">
+
+        <p>
+            Bhartiya Patrakar Union provides a digital platform
+            for sharing news, events, membership information
+            and important updates.
+        </p>
+
+        <p>
+            Explore our website to stay updated with the latest
+            information, upcoming events and activities.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            What We Offer
+        </h2>
+
+        <p>
+            Explore the key sections available on our platform.
+        </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📰
+            </div>
+
+            <h3>
+                Latest News
+            </h3>
+
+            <p>
+                Stay updated with the latest news
+                and important updates.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                📅
+            </div>
+
+            <h3>
+                Events
+            </h3>
+
+            <p>
+                Discover upcoming events and
+                important activities.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🤝
+            </div>
+
+            <h3>
+                Membership
+            </h3>
+
+            <p>
+                Join the platform through our
+                simple membership application.
+            </p>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     LATEST NEWS
+========================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>
+            Latest News
+        </h2>
+
+        <p>
+            Read the latest updates and news.
+        </p>
+
+    </div>
+
+
+    {% if latest_news %}
+
+    <div class="news-grid">
+
+        {% for item in latest_news %}
+
+        <div class="news-card">
+
+
+            {% if item["image"] %}
+
+            <img
+                src="{{ url_for('static', filename='uploads/' + item['image']) }}"
+                alt="{{ item['title'] }}"
+                class="news-image"
+            >
+
+            {% endif %}
+
+
+            <div class="news-content">
+
+                <span class="news-category">
+                    {{ item["category"] }}
+                </span>
+
+                <h3>
+                    {{ item["title"] }}
+                </h3>
+
+                <p>
+                    {{ item["content"][:120] }}...
+                </p>
+
+                <a
+                    href="{{ url_for('news_detail', news_id=item['id']) }}"
+                    class="read-more"
+                >
+                    Read More →
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    {% else %}
+
+    <div class="about-box">
+
+        <p>
+            No latest news available at the moment.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+
+
+<!-- =========================
+     MEMBERSHIP CTA
+========================= -->
+
+<section class="cta">
+
+    <h2>
+        Become a Member
+    </h2>
+
+    <p>
+        Interested in joining? Submit your membership
+        application through our online form.
+    </p>
+
+    <a href="{{ url_for('membership') }}">
+        Apply for Membership
+    </a>
+
+</section>
+
+
+{% endblock %}

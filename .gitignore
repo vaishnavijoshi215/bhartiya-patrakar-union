@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.venv/
+
+# Secret environment file
+.env
+
+# Database
+bpu.db
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploaded files
+static/uploads/*
+!static/uploads/bpu-logo.jpg

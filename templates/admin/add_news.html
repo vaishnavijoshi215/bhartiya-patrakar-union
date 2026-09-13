@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Add News - Bhartiya Patrakar Union</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f9;
+        }
+
+        .header {
+            background: #0b1f3a;
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 40px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+        }
+
+        h2 {
+            color: #0b1f3a;
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #0b1f3a;
+        }
+
+        textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .image-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 6px;
+        }
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .publish-btn {
+            background: #0b1f3a;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .publish-btn:hover {
+            background: #163b6d;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: #777;
+            color: white;
+            text-decoration: none;
+            padding: 13px 25px;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .back-btn:hover {
+            background: #555;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 95%;
+                padding: 22px;
+                margin: 25px auto;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .publish-btn,
+            .back-btn {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>Bhartiya Patrakar Union</h1>
+
+        <p>Add New News Article</p>
+
+    </div>
+
+
+
+    <!-- FORM CONTAINER -->
+
+    <div class="container">
+
+        <h2>Publish News</h2>
+
+
+        <!-- IMPORTANT: enctype is required for image upload -->
+
+        <form method="POST"
+              enctype="multipart/form-data">
+
+
+            <!-- TITLE -->
+
+            <label for="title">
+                News Title
+            </label>
+
+            <input
+                type="text"
+                id="title"
+                name="title"
+                placeholder="Enter news title"
+                required
+            >
+
+
+
+            <!-- CATEGORY -->
+
+            <label for="category">
+                Category
+            </label>
+
+            <select
+                id="category"
+                name="category"
+                required
+            >
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Union Update">
+                    Union Update
+                </option>
+
+                <option value="Press Release">
+                    Press Release
+                </option>
+
+                <option value="News">
+                    News
+                </option>
+
+                <option value="Events">
+                    Events
+                </option>
+
+                <option value="Announcement">
+                    Announcement
+                </option>
+
+            </select>
+
+
+
+            <!-- CONTENT -->
+
+            <label for="content">
+                News Content
+            </label>
+
+            <textarea
+                id="content"
+                name="content"
+                placeholder="Write your news article here..."
+                required
+            ></textarea>
+
+
+
+            <!-- IMAGE -->
+
+            <label for="image">
+                News Image
+            </label>
+
+            <input
+                type="file"
+                id="image"
+                name="image"
+                accept=".jpg,.jpeg,.png,.webp"
+            >
+
+            <div class="image-note">
+                Supported formats: JPG, JPEG, PNG, WEBP
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    class="publish-btn"
+                >
+                    📰 Publish News
+                </button>
+
+
+                <a
+                    href="/admin"
+                    class="back-btn"
+                >
+                    ← Back to Dashboard
+                </a>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,930 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Bhartiya Patrakar Union{% endblock %}
+
+{% block content %}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .admin-page {
+        background: #f4f7fb;
+        min-height: 100vh;
+        padding: 35px 20px 60px;
+    }
+
+    .admin-container {
+        max-width: 1250px;
+        margin: auto;
+    }
+
+    /* Header */
+    .admin-header {
+        background: linear-gradient(135deg, #0f2747, #173f6b);
+        color: white;
+        padding: 28px 30px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        box-shadow: 0 8px 25px rgba(15, 39, 71, 0.15);
+    }
+
+    .admin-header h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+    }
+
+    .admin-header p {
+        margin: 0;
+        opacity: 0.85;
+        font-size: 14px;
+    }
+
+    .admin-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .admin-btn {
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.3s;
+        display: inline-block;
+    }
+
+    .btn-white {
+        background: white;
+        color: #0f2747;
+    }
+
+    .btn-white:hover {
+        background: #e8eef5;
+        transform: translateY(-2px);
+    }
+
+    .btn-green {
+        background: #16a34a;
+        color: white;
+    }
+
+    .btn-green:hover {
+        background: #15803d;
+        transform: translateY(-2px);
+    }
+
+    .btn-blue {
+        background: #2563eb;
+        color: white;
+    }
+
+    .btn-blue:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
+    }
+
+    .btn-orange {
+        background: #f59e0b;
+        color: white;
+    }
+
+    .btn-orange:hover {
+        background: #d97706;
+        transform: translateY(-2px);
+    }
+
+    .btn-red {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn-red:hover {
+        background: #b91c1c;
+        transform: translateY(-2px);
+    }
+
+    /* Statistics */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 14px;
+        padding: 23px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        border-left: 5px solid #2563eb;
+    }
+
+    .stat-card:nth-child(2) {
+        border-left-color: #16a34a;
+    }
+
+    .stat-card:nth-child(3) {
+        border-left-color: #f59e0b;
+    }
+
+    .stat-card:nth-child(4) {
+        border-left-color: #9333ea;
+    }
+
+    .stat-title {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 700;
+        color: #0f2747;
+    }
+
+    /* Sections */
+    .admin-section {
+        background: white;
+        border-radius: 14px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .section-heading h2 {
+        margin: 0;
+        color: #0f2747;
+        font-size: 21px;
+    }
+
+    .section-heading p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    /* Search */
+    .search-box {
+        width: 100%;
+        max-width: 320px;
+        padding: 11px 13px;
+        border: 1px solid #d7dee8;
+        border-radius: 7px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    .search-box:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    }
+
+    /* Tables */
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 700px;
+    }
+
+    th {
+        background: #f1f5f9;
+        color: #334155;
+        padding: 13px 12px;
+        text-align: left;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 13px 12px;
+        border-bottom: 1px solid #edf1f5;
+        color: #475569;
+        font-size: 13px;
+        vertical-align: middle;
+    }
+
+    tr:hover td {
+        background: #fafcff;
+    }
+
+    /* Status badges */
+    .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .badge-green {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .badge-blue {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .badge-orange {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    /* Action buttons */
+    .action-buttons {
+        display: flex;
+        gap: 7px;
+        flex-wrap: wrap;
+    }
+
+    .small-btn {
+        text-decoration: none;
+        padding: 7px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        font-weight: 600;
+        display: inline-block;
+    }
+
+    /* Gallery */
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    .gallery-item {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 170px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .gallery-info {
+        padding: 12px;
+    }
+
+    .gallery-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #334155;
+    }
+
+    /* Empty state */
+    .empty-state {
+        text-align: center;
+        padding: 30px 15px;
+        color: #94a3b8;
+        font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 700px) {
+        .admin-page {
+            padding: 20px 12px 40px;
+        }
+
+        .admin-header {
+            padding: 22px 18px;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .admin-header h1 {
+            font-size: 23px;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .gallery-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .admin-section {
+            padding: 18px;
+        }
+
+        .section-heading {
+            align-items: flex-start;
+        }
+
+        .search-box {
+            max-width: 100%;
+        }
+    }
+</style>
+
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <!-- ADMIN HEADER -->
+        <div class="admin-header">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage Bhartiya Patrakar Union website content</p>
+            </div>
+
+            <div class="admin-actions">
+
+                <a href="{{ url_for('home') }}" class="admin-btn btn-white">
+                    View Website
+                </a>
+
+                <a href="{{ url_for('add_news') }}" class="admin-btn btn-blue">
+                    + Add News
+                </a>
+
+                <a href="{{ url_for('add_gallery') }}" class="admin-btn btn-green">
+                    + Add Gallery
+                </a>
+
+                <a href="{{ url_for('add_event') }}" class="admin-btn btn-orange">
+                    + Add Event
+                </a>
+
+                <a href="{{ url_for('admin_logout') }}" class="admin-btn btn-red">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-title">Total Members</div>
+                <div class="stat-number">
+                    {{ memberships|length }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Published News</div>
+                <div class="stat-number">
+                    {{ news|length }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Total Events</div>
+                <div class="stat-number">
+                    {{ events|length }}
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Gallery Photos</div>
+                <div class="stat-number">
+                    {{ gallery|length }}
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- MEMBERSHIP APPLICATIONS -->
+        <div class="admin-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Membership Applications</h2>
+                    <p>People who submitted the membership form</p>
+                </div>
+
+                <input
+                    type="text"
+                    id="memberSearch"
+                    class="search-box"
+                    placeholder="Search members..."
+                    onkeyup="searchTable('memberSearch', 'membersTable')"
+                >
+
+            </div>
+
+            {% if memberships %}
+
+            <div class="table-wrapper">
+
+                <table id="membersTable">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>City</th>
+                            <th>Profession</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for member in memberships %}
+
+                        <tr>
+
+                            <td>{{ member.id }}</td>
+
+                            <td>
+                                <strong>{{ member.name }}</strong>
+                            </td>
+
+                            <td>{{ member.email }}</td>
+
+                            <td>{{ member.phone }}</td>
+
+                            <td>{{ member.city }}</td>
+
+                            <td>
+                                {{ member.profession or "—" }}
+                            </td>
+
+                            <td>
+                                {{ member.created_at }}
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                No membership applications yet.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- EVENTS -->
+        <div class="admin-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Events</h2>
+                    <p>Manage upcoming and published events</p>
+                </div>
+
+                <input
+                    type="text"
+                    id="eventSearch"
+                    class="search-box"
+                    placeholder="Search events..."
+                    onkeyup="searchTable('eventSearch', 'eventsTable')"
+                >
+
+            </div>
+
+            {% if events %}
+
+            <div class="table-wrapper">
+
+                <table id="eventsTable">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Venue</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for event in events %}
+
+                        <tr>
+
+                            <td>{{ event.id }}</td>
+
+                            <td>
+                                <strong>{{ event.title }}</strong>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-orange">
+                                    {{ event.event_date }}
+                                </span>
+                            </td>
+
+                            <td>{{ event.venue }}</td>
+
+                            <td>
+                                {{ event.description[:70] }}
+                                {% if event.description|length > 70 %}
+                                ...
+                                {% endif %}
+                            </td>
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <a
+                                        href="{{ url_for('edit_event', event_id=event.id) }}"
+                                        class="small-btn btn-blue"
+                                    >
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="{{ url_for('delete_event', event_id=event.id) }}"
+                                        class="small-btn btn-red"
+                                        onclick="return confirm('Are you sure you want to delete this event?');"
+                                    >
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                No events available.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- NEWS -->
+        <div class="admin-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Published News</h2>
+                    <p>Manage website news and articles</p>
+                </div>
+
+                <input
+                    type="text"
+                    id="newsSearch"
+                    class="search-box"
+                    placeholder="Search news..."
+                    onkeyup="searchTable('newsSearch', 'newsTable')"
+                >
+
+            </div>
+
+            {% if news %}
+
+            <div class="table-wrapper">
+
+                <table id="newsTable">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Image</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in news %}
+
+                        <tr>
+
+                            <td>{{ item.id }}</td>
+
+                            <td>
+                                <strong>{{ item.title }}</strong>
+                            </td>
+
+                            <td>
+                                <span class="badge badge-blue">
+                                    {{ item.category }}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                {% if item.image %}
+
+                                <span class="badge badge-green">
+                                    Available
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge badge-orange">
+                                    No Image
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>{{ item.created_at }}</td>
+
+                            <td>
+
+                                <div class="action-buttons">
+
+                                    <a
+                                        href="{{ url_for('edit_news', news_id=item.id) }}"
+                                        class="small-btn btn-blue"
+                                    >
+                                        Edit
+                                    </a>
+
+                                    <a
+                                        href="{{ url_for('delete_news', news_id=item.id) }}"
+                                        class="small-btn btn-red"
+                                        onclick="return confirm('Are you sure you want to delete this news article?');"
+                                    >
+                                        Delete
+                                    </a>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                No news articles available.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- GALLERY -->
+        <div class="admin-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Gallery</h2>
+                    <p>Manage photos displayed on the website</p>
+                </div>
+
+            </div>
+
+            {% if gallery %}
+
+            <div class="gallery-grid">
+
+                {% for photo in gallery %}
+
+                <div class="gallery-item">
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/' + photo.image) }}"
+                        alt="{{ photo.title }}"
+                    >
+
+                    <div class="gallery-info">
+
+                        <p class="gallery-title">
+                            {{ photo.title }}
+                        </p>
+
+                        <a
+                            href="{{ url_for('delete_gallery', gallery_id=photo.id) }}"
+                            class="small-btn btn-red"
+                            onclick="return confirm('Are you sure you want to delete this photo?');"
+                        >
+                            Delete
+                        </a>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                No gallery photos available.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- CONTACT MESSAGES -->
+        <div class="admin-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Contact Messages</h2>
+                    <p>Messages received through the contact form</p>
+                </div>
+
+                <input
+                    type="text"
+                    id="messageSearch"
+                    class="search-box"
+                    placeholder="Search messages..."
+                    onkeyup="searchTable('messageSearch', 'messagesTable')"
+                >
+
+            </div>
+
+            {% if contact_messages %}
+
+            <div class="table-wrapper">
+
+                <table id="messagesTable">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Subject</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for msg in contact_messages %}
+
+                        <tr>
+
+                            <td>{{ msg.id }}</td>
+
+                            <td>
+                                <strong>{{ msg.name }}</strong>
+                            </td>
+
+                            <td>{{ msg.email }}</td>
+
+                            <td>{{ msg.subject }}</td>
+
+                            <td>
+                                {{ msg.message[:100] }}
+
+                                {% if msg.message|length > 100 %}
+                                ...
+                                {% endif %}
+                            </td>
+
+                            <td>{{ msg.created_at }}</td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+                No contact messages yet.
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function searchTable(inputId, tableId) {
+
+    const input = document.getElementById(inputId);
+    const filter = input.value.toLowerCase();
+
+    const table = document.getElementById(tableId);
+
+    if (!table) {
+        return;
+    }
+
+    const rows = table.getElementsByTagName("tr");
+
+    for (let i = 1; i < rows.length; i++) {
+
+        const rowText = rows[i].innerText.toLowerCase();
+
+        if (rowText.includes(filter)) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+
+    }
+
+}
+
+</script>
+
+{% endblock %}

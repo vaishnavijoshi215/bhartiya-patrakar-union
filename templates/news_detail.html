@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ news['title'] }} - Bhartiya Patrakar Union
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .detail-hero {
+        background: #0f2747;
+        color: white;
+        text-align: center;
+        padding: 55px 20px;
+    }
+
+    .detail-hero h1 {
+        max-width: 900px;
+        margin: 0 auto;
+        font-size: 40px;
+        line-height: 1.3;
+    }
+
+    .detail-container {
+        max-width: 900px;
+        margin: 45px auto;
+        padding: 0 20px;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .detail-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .detail-content {
+        padding: 35px;
+    }
+
+    .category {
+        display: inline-block;
+        background: #e0e7ff;
+        color: #1e3a8a;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .date {
+        color: #888;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    .detail-content h2 {
+        color: #0f2747;
+        margin-top: 0;
+    }
+
+    .news-text {
+        color: #444;
+        font-size: 17px;
+        line-height: 1.9;
+        white-space: pre-line;
+    }
+
+    .back-btn {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 11px 18px;
+        background: #2563eb;
+        color: white;
+        text-decoration: none;
+        border-radius: 7px;
+        font-weight: bold;
+    }
+
+    .back-btn:hover {
+        background: #1d4ed8;
+    }
+
+    @media (max-width: 600px) {
+
+        .detail-hero {
+            padding: 45px 15px;
+        }
+
+        .detail-hero h1 {
+            font-size: 28px;
+        }
+
+        .detail-container {
+            padding: 0 12px;
+            margin-top: 30px;
+        }
+
+        .detail-content {
+            padding: 22px;
+        }
+
+        .news-text {
+            font-size: 16px;
+        }
+
+    }
+
+</style>
+
+
+<!-- NEWS TITLE -->
+
+<section class="detail-hero">
+
+    <h1>
+        {{ news['title'] }}
+    </h1>
+
+</section>
+
+
+<!-- NEWS CONTENT -->
+
+<div class="detail-container">
+
+    <article class="detail-card">
+
+
+        {% if news['image'] %}
+
+        <img
+            class="detail-image"
+            src="{{ url_for(
+                'static',
+                filename='uploads/' + news['image']
+            ) }}"
+            alt="{{ news['title'] }}"
+        >
+
+        {% endif %}
+
+
+        <div class="detail-content">
+
+            <span class="category">
+                {{ news['category'] }}
+            </span>
+
+            <div class="date">
+                Published: {{ news['created_at'] }}
+            </div>
+
+            <div class="news-text">
+                {{ news['content'] }}
+            </div>
+
+
+            <a
+                href="{{ url_for('news') }}"
+                class="back-btn"
+            >
+                ← Back to News
+            </a>
+
+        </div>
+
+    </article>
+
+</div>
+
+
+{% endblock %}

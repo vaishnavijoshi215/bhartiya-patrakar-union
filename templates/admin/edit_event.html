@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Event | Admin
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    .admin-form-section {
+        padding: 60px 5%;
+    }
+
+    .admin-form-container {
+        max-width: 750px;
+        margin: auto;
+    }
+
+    .form-card {
+        background: white;
+        padding: 40px;
+        border-radius: 14px;
+
+        box-shadow:
+            0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .form-card h1 {
+        color: #0f2747;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        color: #6b7280;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 13px 14px;
+
+        border: 1px solid #d1d5db;
+        border-radius: 7px;
+
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+
+        outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        border-color: #0f2747;
+
+        box-shadow:
+            0 0 0 3px rgba(15,39,71,0.08);
+    }
+
+    .form-group textarea {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 25px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 13px 22px;
+
+        border: none;
+        border-radius: 7px;
+
+        text-decoration: none;
+
+        font-weight: bold;
+
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #0f2747;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background: #173b68;
+    }
+
+    .btn-secondary {
+        background: #e5e7eb;
+        color: #374151;
+    }
+
+    .btn-secondary:hover {
+        background: #d1d5db;
+    }
+
+
+    @media (max-width: 600px) {
+
+        .admin-form-section {
+            padding: 40px 5%;
+        }
+
+        .form-card {
+            padding: 25px 20px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .form-actions .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+    }
+
+</style>
+
+
+<section class="admin-form-section">
+
+    <div class="admin-form-container">
+
+        <div class="form-card">
+
+            <h1>
+                Edit Event
+            </h1>
+
+            <p class="subtitle">
+                Update the event information below.
+            </p>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('edit_event', event_id=event['id']) }}"
+            >
+
+
+                <!-- EVENT TITLE -->
+
+                <div class="form-group">
+
+                    <label for="title">
+                        Event Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ event['title'] }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EVENT DATE -->
+
+                <div class="form-group">
+
+                    <label for="event_date">
+                        Event Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="event_date"
+                        name="event_date"
+                        value="{{ event['event_date'] }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- VENUE -->
+
+                <div class="form-group">
+
+                    <label for="venue">
+                        Venue / Location
+                    </label>
+
+                    <input
+                        type="text"
+                        id="venue"
+                        name="venue"
+                        value="{{ event['venue'] }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Event Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        required
+                    >{{ event['description'] }}</textarea>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Update Event
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('admin') }}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

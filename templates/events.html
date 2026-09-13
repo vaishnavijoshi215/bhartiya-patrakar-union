@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}
+Events | Bhartiya Patrakar Union
+{% endblock %}
+
+{% block description %}
+View upcoming and recent events from Bhartiya Patrakar Union.
+{% endblock %}
+
+{% block og_title %}
+Events | Bhartiya Patrakar Union
+{% endblock %}
+
+{% block og_description %}
+Explore upcoming events and activities of Bhartiya Patrakar Union.
+{% endblock %}
+
+{% block content %}
+
+<style>
+.events-page {
+    max-width: 1100px;
+    margin: auto;
+    padding: 65px 20px;
+}
+
+.events-page h1 {
+    text-align: center;
+    color: #0f2747;
+    font-size: 38px;
+}
+
+.events-intro {
+    text-align: center;
+    color: #64748b;
+    margin-bottom: 45px;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 25px;
+}
+
+.event-card {
+    background: white;
+    padding: 28px;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(15,39,71,.08);
+}
+
+.event-card h2 {
+    color: #0f2747;
+}
+
+.event-date {
+    color: #2563eb;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.event-venue {
+    color: #64748b;
+    margin-bottom: 15px;
+}
+
+.event-description {
+    color: #475569;
+    line-height: 1.7;
+}
+
+.no-events {
+    background: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+}
+
+@media(max-width:700px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="events-page">
+
+    <h1>Events</h1>
+
+    <p class="events-intro">
+        Explore upcoming events and important activities.
+    </p>
+
+    {% if events %}
+
+    <div class="events-grid">
+
+        {% for event in events %}
+
+        <div class="event-card">
+
+            <div class="event-date">
+                📅 {{ event["event_date"] }}
+            </div>
+
+            <h2>
+                {{ event["title"] }}
+            </h2>
+
+            <div class="event-venue">
+                📍 {{ event["venue"] }}
+            </div>
+
+            <p class="event-description">
+                {{ event["description"] }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="no-events">
+        <p>No upcoming events available.</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

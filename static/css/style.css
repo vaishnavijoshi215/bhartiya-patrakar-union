@@ -1,0 +1,590 @@
+/* ================================
+   BHARTIYA PATRAKAR UNION
+   MAIN STYLESHEET
+================================ */
+
+
+/* ---------- RESET ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+
+/* ---------- COMMON ---------- */
+
+.container {
+    width: min(1180px, 92%);
+    margin: auto;
+}
+
+.section {
+    padding: 90px 0;
+}
+
+.section-light {
+    background: #f8fafc;
+}
+
+.section-heading {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 50px;
+}
+
+.section-label {
+    color: #b91c1c;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.section-heading h2 {
+    color: #172554;
+    font-size: clamp(30px, 4vw, 44px);
+    line-height: 1.2;
+}
+
+
+/* ---------- HEADER ---------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.header-inner {
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-title {
+    color: #172554;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.logo-subtitle {
+    color: #b91c1c;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.navbar a:hover {
+    color: #b91c1c;
+}
+
+
+/* ---------- HERO ---------- */
+
+.hero {
+    min-height: 650px;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        linear-gradient(
+            rgba(15, 23, 42, 0.86),
+            rgba(15, 23, 42, 0.86)
+        ),
+        url("https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=2000&q=85");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    padding: 100px 0;
+    color: #ffffff;
+}
+
+.hero-label {
+    color: #fca5a5;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    max-width: 850px;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.08;
+    margin-bottom: 25px;
+}
+
+.hero-description {
+    max-width: 650px;
+    color: #e2e8f0;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 25px;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #b91c1c;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: #991b1b;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    border: 1px solid #ffffff;
+    color: #ffffff;
+}
+
+.btn-outline:hover {
+    background: #ffffff;
+    color: #172554;
+}
+
+.btn-light {
+    background: #ffffff;
+    color: #172554;
+}
+
+.btn-light:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+
+/* ---------- INTRO ---------- */
+
+.intro-box {
+    max-width: 850px;
+    margin: auto;
+
+    padding: 45px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    box-shadow:
+        0 15px 40px rgba(15, 23, 42, 0.06);
+
+    text-align: center;
+}
+
+.intro-box p {
+    color: #475569;
+    font-size: 17px;
+    margin-bottom: 18px;
+}
+
+.text-link {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    color: #b91c1c;
+
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+.text-link:hover {
+    transform: translateX(4px);
+}
+
+
+/* ---------- FEATURE CARDS ---------- */
+
+.feature-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+.feature-card {
+    padding: 35px;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-7px);
+
+    box-shadow:
+        0 15px 35px rgba(15, 23, 42, 0.08);
+}
+
+.feature-icon {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fee2e2;
+
+    border-radius: 10px;
+
+    font-size: 25px;
+
+    margin-bottom: 22px;
+}
+
+.feature-card h3 {
+    color: #172554;
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.feature-card a {
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+
+/* ---------- NEWS ---------- */
+
+.news-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 40px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.05);
+}
+
+.news-tag {
+    display: inline-block;
+
+    padding: 5px 10px;
+
+    background: #fee2e2;
+
+    color: #b91c1c;
+
+    border-radius: 4px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+}
+
+.news-placeholder h3 {
+    color: #172554;
+
+    font-size: 24px;
+
+    margin-bottom: 8px;
+}
+
+.news-placeholder p {
+    max-width: 700px;
+
+    color: #64748b;
+}
+
+
+/* ---------- MEMBERSHIP CTA ---------- */
+
+.membership-cta {
+    padding: 90px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #172554,
+            #0f172a
+        );
+
+    color: #ffffff;
+
+    text-align: center;
+}
+
+.membership-cta h2 {
+    font-size: clamp(32px, 5vw, 48px);
+
+    margin-bottom: 15px;
+}
+
+.membership-cta p {
+    max-width: 650px;
+
+    margin: 0 auto 30px;
+
+    color: #cbd5e1;
+
+    font-size: 17px;
+}
+
+
+/* ---------- FOOTER ---------- */
+
+.site-footer {
+    background: #0b1120;
+
+    color: #ffffff;
+
+    padding-top: 65px;
+}
+
+.footer-grid {
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
+    gap: 50px;
+
+    padding-bottom: 50px;
+}
+
+.site-footer h3 {
+    font-size: 23px;
+
+    margin-bottom: 15px;
+}
+
+.site-footer h4 {
+    font-size: 16px;
+
+    margin-bottom: 15px;
+}
+
+.site-footer p {
+    max-width: 450px;
+
+    color: #94a3b8;
+}
+
+.footer-grid a {
+    display: block;
+
+    color: #94a3b8;
+
+    margin-bottom: 9px;
+
+    transition: 0.3s;
+}
+
+.footer-grid a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #1e293b;
+
+    padding: 20px;
+
+    text-align: center;
+}
+
+.footer-bottom p {
+    max-width: none;
+
+    font-size: 13px;
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 900px) {
+
+    .header-inner {
+        padding: 15px 0;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .navbar {
+        justify-content: flex-start;
+
+        gap: 15px;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .news-placeholder {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 90%;
+    }
+
+    .section {
+        padding: 65px 0;
+    }
+
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-content {
+        padding: 70px 0;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .hero-buttons .btn {
+        text-align: center;
+    }
+
+    .intro-box {
+        padding: 28px 22px;
+    }
+
+    .feature-card {
+        padding: 28px;
+    }
+
+    .news-placeholder {
+        padding: 28px 22px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        gap: 10px 15px;
+    }
+
+    .navbar a {
+        font-size: 13px;
+    }
+}
