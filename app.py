@@ -5,15 +5,26 @@ from werkzeug.utils import secure_filename
 import os
 import time
 import re
+from dotenv import load_dotenv
 
 
-app = Flask(__name__)
+# =========================================================
+# LOAD ENVIRONMENT VARIABLES
+# =========================================================
+
+load_dotenv()
+
 
 # =========================================================
 # APP SETTINGS
 # =========================================================
 
-app.secret_key = "bpu-local-secret-key"
+app = Flask(__name__)
+
+app.secret_key = os.getenv(
+    "SECRET_KEY",
+    "local-development-key"
+)
 
 UPLOAD_FOLDER = os.path.join(
     app.root_path,
@@ -33,6 +44,14 @@ ALLOWED_EXTENSIONS = {
 }
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+# =========================================================
+# ADMIN SETTINGS
+# =========================================================
+
+ADMIN_USERNAME = os.getenv("ADMIN_USERNAME")
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD")
 
 
 # =========================================================
@@ -205,18 +224,12 @@ def membership():
         profession = request.form.get("profession", "").strip()
         message = request.form.get("message", "").strip()
 
-
-        # -------------------------
-        # SERVER-SIDE VALIDATION
-        # -------------------------
-
         if not name or not email or not phone or not city:
 
             return render_template(
                 "membership.html",
                 error="Please fill all required fields."
             )
-
 
         if not valid_email(email):
 
@@ -225,18 +238,12 @@ def membership():
                 error="Please enter a valid email address."
             )
 
-
         if not valid_phone(phone):
 
             return render_template(
                 "membership.html",
                 error="Phone number must contain exactly 10 digits."
             )
-
-
-        # -------------------------
-        # SAVE TO DATABASE
-        # -------------------------
 
         conn = get_db_connection()
 
@@ -263,13 +270,11 @@ def membership():
         conn.commit()
         conn.close()
 
-
         return render_template(
             "success.html",
             title="Membership Application Submitted",
             message="Thank you! Your membership application has been submitted successfully."
         )
-
 
     return render_template("membership.html")
 
@@ -288,11 +293,6 @@ def contact():
         subject = request.form.get("subject", "").strip()
         message = request.form.get("message", "").strip()
 
-
-        # -------------------------
-        # SERVER-SIDE VALIDATION
-        # -------------------------
-
         if not name or not email or not subject or not message:
 
             return render_template(
@@ -300,18 +300,12 @@ def contact():
                 error="Please fill all required fields."
             )
 
-
         if not valid_email(email):
 
             return render_template(
                 "contact.html",
                 error="Please enter a valid email address."
             )
-
-
-        # -------------------------
-        # SAVE MESSAGE
-        # -------------------------
 
         conn = get_db_connection()
 
@@ -334,13 +328,11 @@ def contact():
         conn.commit()
         conn.close()
 
-
         return render_template(
             "success.html",
             title="Message Sent Successfully",
             message="Thank you for contacting Bhartiya Patrakar Union. We will get back to you soon."
         )
-
 
     return render_template("contact.html")
 
@@ -354,14 +346,15 @@ def admin_login():
 
     if request.method == "POST":
 
-        username = request.form.get("username", "").strip()
-        password = request.form.get("password", "").strip()
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
 
-
-        # LOCAL TESTING CREDENTIALS
-        ADMIN_USERNAME = "admin"
-        ADMIN_PASSWORD = "BPU@12345"
-
+        password = request.form.get(
+            "password",
+            ""
+        ).strip()
 
         if (
             username == ADMIN_USERNAME
@@ -374,12 +367,10 @@ def admin_login():
                 url_for("admin_dashboard")
             )
 
-
         return render_template(
             "admin/login.html",
             error="Invalid username or password."
         )
-
 
     return render_template("admin/login.html")
 
@@ -397,9 +388,7 @@ def admin_dashboard():
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     memberships = conn.execute("""
         SELECT *
@@ -407,13 +396,11 @@ def admin_dashboard():
         ORDER BY id DESC
     """).fetchall()
 
-
     news_list = conn.execute("""
         SELECT *
         FROM news
         ORDER BY id DESC
     """).fetchall()
-
 
     gallery_list = conn.execute("""
         SELECT *
@@ -421,13 +408,11 @@ def admin_dashboard():
         ORDER BY id DESC
     """).fetchall()
 
-
     contact_messages = conn.execute("""
         SELECT *
         FROM contact_messages
         ORDER BY id DESC
     """).fetchall()
-
 
     events_list = conn.execute("""
         SELECT *
@@ -435,9 +420,7 @@ def admin_dashboard():
         ORDER BY event_date ASC
     """).fetchall()
 
-
     conn.close()
-
 
     return render_template(
         "admin/dashboard.html",
@@ -462,17 +445,26 @@ def add_news():
             url_for("admin_login")
         )
 
-
     if request.method == "POST":
 
-        title = request.form.get("title", "").strip()
-        category = request.form.get("category", "").strip()
-        content = request.form.get("content", "").strip()
+        title = request.form.get(
+            "title",
+            ""
+        ).strip()
+
+        category = request.form.get(
+            "category",
+            ""
+        ).strip()
+
+        content = request.form.get(
+            "content",
+            ""
+        ).strip()
 
         file = request.files.get("image")
 
         image_name = None
-
 
         if not title or not category or not content:
 
@@ -480,11 +472,6 @@ def add_news():
                 "admin/add_news.html",
                 error="Please fill all required fields."
             )
-
-
-        # -------------------------
-        # IMAGE UPLOAD
-        # -------------------------
 
         if file and file.filename:
 
@@ -495,17 +482,9 @@ def add_news():
                     error="Invalid image format."
                 )
 
-
             original_name = secure_filename(
                 file.filename
             )
-
-
-            extension = original_name.rsplit(
-                ".",
-                1
-            )[1].lower()
-
 
             image_name = (
                 str(int(time.time()))
@@ -513,18 +492,12 @@ def add_news():
                 + original_name
             )
 
-
             file.save(
                 os.path.join(
                     UPLOAD_FOLDER,
                     image_name
                 )
             )
-
-
-        # -------------------------
-        # DATABASE
-        # -------------------------
 
         conn = get_db_connection()
 
@@ -547,11 +520,9 @@ def add_news():
         conn.commit()
         conn.close()
 
-
         return redirect(
             url_for("admin_dashboard")
         )
-
 
     return render_template(
         "admin/add_news.html"
@@ -574,9 +545,7 @@ def edit_news(news_id):
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     news_item = conn.execute("""
         SELECT *
@@ -584,13 +553,11 @@ def edit_news(news_id):
         WHERE id = ?
     """, (news_id,)).fetchone()
 
-
     if news_item is None:
 
         conn.close()
 
         return "News not found", 404
-
 
     if request.method == "POST":
 
@@ -609,11 +576,9 @@ def edit_news(news_id):
             ""
         ).strip()
 
-
         file = request.files.get("image")
 
         image_name = news_item["image"]
-
 
         if not title or not category or not content:
 
@@ -624,11 +589,6 @@ def edit_news(news_id):
                 news=news_item,
                 error="Please fill all required fields."
             )
-
-
-        # -------------------------
-        # NEW IMAGE
-        # -------------------------
 
         if file and file.filename:
 
@@ -642,17 +602,9 @@ def edit_news(news_id):
                     error="Invalid image format."
                 )
 
-
             original_name = secure_filename(
                 file.filename
             )
-
-
-            extension = original_name.rsplit(
-                ".",
-                1
-            )[1].lower()
-
 
             new_image_name = (
                 str(int(time.time()))
@@ -660,16 +612,12 @@ def edit_news(news_id):
                 + original_name
             )
 
-
             file.save(
                 os.path.join(
                     UPLOAD_FOLDER,
                     new_image_name
                 )
             )
-
-
-            # Delete old image
 
             if image_name:
 
@@ -682,13 +630,7 @@ def edit_news(news_id):
 
                     os.remove(old_path)
 
-
             image_name = new_image_name
-
-
-        # -------------------------
-        # UPDATE
-        # -------------------------
 
         conn.execute("""
             UPDATE news
@@ -706,18 +648,14 @@ def edit_news(news_id):
             news_id
         ))
 
-
         conn.commit()
         conn.close()
-
 
         return redirect(
             url_for("admin_dashboard")
         )
 
-
     conn.close()
-
 
     return render_template(
         "admin/edit_news.html",
@@ -740,9 +678,7 @@ def delete_news(news_id):
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     news_item = conn.execute("""
         SELECT image
@@ -750,11 +686,9 @@ def delete_news(news_id):
         WHERE id = ?
     """, (news_id,)).fetchone()
 
-
     if news_item:
 
         image_name = news_item["image"]
-
 
         if image_name:
 
@@ -763,23 +697,18 @@ def delete_news(news_id):
                 image_name
             )
 
-
             if os.path.exists(image_path):
 
                 os.remove(image_path)
-
 
         conn.execute("""
             DELETE FROM news
             WHERE id = ?
         """, (news_id,))
 
-
         conn.commit()
 
-
     conn.close()
-
 
     return redirect(
         url_for("admin_dashboard")
@@ -802,7 +731,6 @@ def add_gallery():
             url_for("admin_login")
         )
 
-
     if request.method == "POST":
 
         title = request.form.get(
@@ -812,14 +740,12 @@ def add_gallery():
 
         file = request.files.get("image")
 
-
         if not title or not file or not file.filename:
 
             return render_template(
                 "admin/add_gallery.html",
                 error="Please enter title and select an image."
             )
-
 
         if not allowed_file(file.filename):
 
@@ -828,18 +754,15 @@ def add_gallery():
                 error="Invalid image format."
             )
 
-
         original_name = secure_filename(
             file.filename
         )
-
 
         image_name = (
             str(int(time.time()))
             + "_"
             + original_name
         )
-
 
         file.save(
             os.path.join(
@@ -848,9 +771,7 @@ def add_gallery():
             )
         )
 
-
         conn = get_db_connection()
-
 
         conn.execute("""
             INSERT INTO gallery
@@ -864,15 +785,12 @@ def add_gallery():
             image_name
         ))
 
-
         conn.commit()
         conn.close()
-
 
         return redirect(
             url_for("admin_dashboard")
         )
-
 
     return render_template(
         "admin/add_gallery.html"
@@ -894,9 +812,7 @@ def delete_gallery(gallery_id):
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     item = conn.execute("""
         SELECT image
@@ -904,11 +820,9 @@ def delete_gallery(gallery_id):
         WHERE id = ?
     """, (gallery_id,)).fetchone()
 
-
     if item:
 
         image_name = item["image"]
-
 
         if image_name:
 
@@ -917,23 +831,18 @@ def delete_gallery(gallery_id):
                 image_name
             )
 
-
             if os.path.exists(image_path):
 
                 os.remove(image_path)
-
 
         conn.execute("""
             DELETE FROM gallery
             WHERE id = ?
         """, (gallery_id,))
 
-
         conn.commit()
 
-
     conn.close()
-
 
     return redirect(
         url_for("admin_dashboard")
@@ -956,7 +865,6 @@ def add_event():
             url_for("admin_login")
         )
 
-
     if request.method == "POST":
 
         title = request.form.get(
@@ -979,7 +887,6 @@ def add_event():
             ""
         ).strip()
 
-
         if (
             not title
             or not event_date
@@ -992,9 +899,7 @@ def add_event():
                 error="Please fill all required fields."
             )
 
-
         conn = get_db_connection()
-
 
         conn.execute("""
             INSERT INTO events
@@ -1012,15 +917,12 @@ def add_event():
             description
         ))
 
-
         conn.commit()
         conn.close()
-
 
         return redirect(
             url_for("admin_dashboard")
         )
-
 
     return render_template(
         "admin/add_event.html"
@@ -1043,9 +945,7 @@ def edit_event(event_id):
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     event = conn.execute("""
         SELECT *
@@ -1053,13 +953,11 @@ def edit_event(event_id):
         WHERE id = ?
     """, (event_id,)).fetchone()
 
-
     if event is None:
 
         conn.close()
 
         return "Event not found", 404
-
 
     if request.method == "POST":
 
@@ -1083,7 +981,6 @@ def edit_event(event_id):
             ""
         ).strip()
 
-
         if (
             not title
             or not event_date
@@ -1098,7 +995,6 @@ def edit_event(event_id):
                 event=event,
                 error="Please fill all required fields."
             )
-
 
         conn.execute("""
             UPDATE events
@@ -1116,18 +1012,14 @@ def edit_event(event_id):
             event_id
         ))
 
-
         conn.commit()
         conn.close()
-
 
         return redirect(
             url_for("admin_dashboard")
         )
 
-
     conn.close()
-
 
     return render_template(
         "admin/edit_event.html",
@@ -1150,19 +1042,15 @@ def delete_event(event_id):
             url_for("admin_login")
         )
 
-
     conn = get_db_connection()
-
 
     conn.execute("""
         DELETE FROM events
         WHERE id = ?
     """, (event_id,))
 
-
     conn.commit()
     conn.close()
-
 
     return redirect(
         url_for("admin_dashboard")
