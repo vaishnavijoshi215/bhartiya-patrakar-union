@@ -33,6 +33,8 @@ UPLOAD_FOLDER = os.path.join(
 )
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+# Maximum upload size = 5 MB
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 ALLOWED_EXTENSIONS = {
@@ -77,6 +79,14 @@ def valid_email(email):
 def valid_phone(phone):
 
     return phone.isdigit() and len(phone) == 10
+
+
+# =========================================================
+# INITIALIZE DATABASE
+# IMPORTANT FOR RENDER DEPLOYMENT
+# =========================================================
+
+init_db()
 
 
 # =========================================================
@@ -154,6 +164,7 @@ def news_detail(news_id):
     conn.close()
 
     if item is None:
+
         return "News not found", 404
 
     return render_template(
@@ -217,12 +228,35 @@ def membership():
 
     if request.method == "POST":
 
-        name = request.form.get("name", "").strip()
-        email = request.form.get("email", "").strip()
-        phone = request.form.get("phone", "").strip()
-        city = request.form.get("city", "").strip()
-        profession = request.form.get("profession", "").strip()
-        message = request.form.get("message", "").strip()
+        name = request.form.get(
+            "name",
+            ""
+        ).strip()
+
+        email = request.form.get(
+            "email",
+            ""
+        ).strip()
+
+        phone = request.form.get(
+            "phone",
+            ""
+        ).strip()
+
+        city = request.form.get(
+            "city",
+            ""
+        ).strip()
+
+        profession = request.form.get(
+            "profession",
+            ""
+        ).strip()
+
+        message = request.form.get(
+            "message",
+            ""
+        ).strip()
 
         if not name or not email or not phone or not city:
 
@@ -288,10 +322,25 @@ def contact():
 
     if request.method == "POST":
 
-        name = request.form.get("name", "").strip()
-        email = request.form.get("email", "").strip()
-        subject = request.form.get("subject", "").strip()
-        message = request.form.get("message", "").strip()
+        name = request.form.get(
+            "name",
+            ""
+        ).strip()
+
+        email = request.form.get(
+            "email",
+            ""
+        ).strip()
+
+        subject = request.form.get(
+            "subject",
+            ""
+        ).strip()
+
+        message = request.form.get(
+            "message",
+            ""
+        ).strip()
 
         if not name or not email or not subject or not message:
 
@@ -1096,12 +1145,10 @@ def sitemap():
 
 
 # =========================================================
-# RUN APPLICATION
+# RUN APPLICATION LOCALLY
 # =========================================================
 
 if __name__ == "__main__":
-
-    init_db()
 
     app.run(
         debug=True
